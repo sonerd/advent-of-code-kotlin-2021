@@ -7,11 +7,28 @@ fun main() {
         return input.size
     }
 
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
+    val testInput = readInput("Day01")
+    check(part1(testInput) == 2000)
+    println("""increased measurements: ${countIncreasedMeasurements(testInput)}""")
 
-    val input = readInput("Day01")
-    println(part1(input))
-    println(part2(input))
+    val listOfSums = mutableListOf<String>()
+    testInput.forEachIndexed { i, e ->
+        val currentValue = Integer.valueOf(e)
+        if (i + 2 < testInput.size) {
+            val sum = currentValue + Integer.valueOf(testInput[i + 1]) + Integer.valueOf(testInput[i + 2])
+            listOfSums.add(sum.toString())
+        }
+    }
+    println("""increased sum of measurements: ${countIncreasedMeasurements(listOfSums)}""")
+}
+
+private fun countIncreasedMeasurements(testInput: List<String>): Int {
+    var increasedCount = 0
+    testInput.forEachIndexed { i, e ->
+        val valueAsInt = Integer.valueOf(e)
+        if (i > 0 && valueAsInt > Integer.valueOf(testInput[i - 1])) {
+            increasedCount++
+        }
+    }
+    return increasedCount
 }
